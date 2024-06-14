@@ -33,22 +33,27 @@ find_ide() {
         "/opt/mcuxpressoide"
     )
     local ide_name="mcuxpressoide"
-    local flash_server_name="redlinkserv"
-    local flash_tool_name="crt_emu_cm_redlink"
+    local flash_server_name="/usr/local/LinkServer_1.5.30/binaries/redlinkserv"
+    local flash_tool_name="/usr/local/LinkServer_1.5.30/binaries/crt_emu_cm_redlink"
 
     for path in ${ide_search_paths[@]}; do
         # Find the MCUXpresso IDE binary executable
         if [[ -x "$path/ide/$ide_name" ]]; then
             # Found it, now find a script that sets up PATH for tools in the IDE
+            echo "111"
             if [[ -f "$path/MCUXpressoPath.sh" ]]; then
                 # Found it, now source the script and test if the tools we need
                 # are in the PATH
+                echo "222"
                 . "$path/MCUXpressoPath.sh" >& /dev/null
                 local flash_server=`which $flash_server_name 2> /dev/null`
+                echo "$flash_server"
                 local flash_tool=`which $flash_tool_name 2> /dev/null`
+                echo "$flash_tool"
                 if [[ -n "$flash_server" ]] && [[ -n "$flash_tool" ]]; then
                     # Great, now set up environment variables that point to
                     # these tools and return
+                    echo "333"
                     export ECLIPSE="$path/ide/$ide_name"
                     export FLASH_SERVER="$flash_server_name"
                     export FLASH_TOOL="$flash_tool_name"

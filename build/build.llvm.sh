@@ -65,7 +65,7 @@ cmake -G Ninja                                                              \
       "$LLVM_SRC/llvm"
 
 # Build all
-ninja
+ninja -j3
 
 # Install only the necessary
 ninja install-clang-stripped                                                \
